@@ -44,9 +44,9 @@ app.route('/')
 
       if (latestBioData) {
         // Update the render path to 'col.html' directly
-        res.render('col.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime });
+        res.render('index.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime });
       } else {
-        res.render('col.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime });
+        res.render('index.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime });
       }
     } catch (err) {
       console.error(err);
