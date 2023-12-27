@@ -24,14 +24,14 @@ const colorSchema = new mongoose.Schema({
 });
 
 const Color = mongoose.model('Color', colorSchema);
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Set HTML as the view engine
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+// Set the views path to the current directory
+app.set('views', __dirname);
 
 // Routes
 app.route('/')
@@ -43,6 +43,7 @@ app.route('/')
       const lastUpdatedTime = latestColor ? latestColor.lastUpdatedTime : null;
 
       if (latestBioData) {
+        // Update the render path to 'col.html' directly
         res.render('col.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime });
       } else {
         res.render('col.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime });
@@ -51,6 +52,7 @@ app.route('/')
       console.error(err);
     }
   })
+
   .post(async (req, res) => {
     const { bioData } = req.body;
 
