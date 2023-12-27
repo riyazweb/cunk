@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export to PDF</title>
+</head>
+<body>
+    <button id="exportButton">Export to PDF</button>
+
+    <script>
+        document.getElementById('exportButton').addEventListener('click', () => {
+            fetch('/export-pdf')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'exported-data.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                });
+        });
+    </script>
+</body>
+</html>
