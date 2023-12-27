@@ -1,15 +1,8 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./indo.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "rewrites": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
-    ]
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
 }
