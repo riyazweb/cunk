@@ -76,10 +76,7 @@ app.post('/changeColor', async (req, res) => {
     // Update MongoDB with the selected color and current time
     await Color.findOneAndUpdate({}, { lastClickedColor: color, lastUpdatedTime: Date.now() }, { upsert: true });
     res.send('Color updated successfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
-  }
+  } 
 });
 
 app.listen(port, () => {
