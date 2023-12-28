@@ -1,3 +1,5 @@
+// server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -43,7 +45,6 @@ app.route('/')
       const lastUpdatedTime = latestColor ? latestColor.lastUpdatedTime : null;
 
       if (latestBioData) {
-        // Update the render path to 'col.html' directly
         res.render('index.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime });
       } else {
         res.render('index.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime });
@@ -68,14 +69,14 @@ app.route('/')
     }
   });
 
-// Route to handle color changes
-app.post('/changeColor', async (req, res) => {
-  const { color } = req.body;
+// Route to handle class mode submissions
+app.post('/submitClassMode', async (req, res) => {
+  const { classMode } = req.body;
 
   try {
-    // Update MongoDB with the selected color and current time
-    await Color.findOneAndUpdate({}, { lastClickedColor: color, lastUpdatedTime: Date.now() }, { upsert: true });
-    res.send('Color updated successfully');
+    // Update MongoDB with the submitted class mode and current time
+    await Color.findOneAndUpdate({}, { lastClickedColor: classMode, lastUpdatedTime: Date.now() }, { upsert: true });
+    res.send('Class mode submitted successfully');
   } 
   catch (err) {
     console.error(err);

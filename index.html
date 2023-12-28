@@ -28,25 +28,22 @@
       margin-bottom: 20px;
     }
 
-    button {
+    input {
       margin: 10px;
-    
+      padding: 15px;
+      font-size: 1.5em;
+      width: 80%;
+      box-sizing: border-box;
+    }
+
+    #submitButton {
+      background-color: blue;
+      color: white;
       cursor: pointer;
       border: none;
       border-radius: 5px;
-      padding: 15px; /* Increase padding for larger button */
-        font-size: 2.0em; /* Increase font size for larger button */
- 
-    }
-
-    #greenButton {
-      background-color: green;
-      color: white;
-    }
-
-    #redButton {
-      background-color: red;
-      color: white;
+      padding: 15px;
+      font-size: 1.5em;
     }
 
     /* Smartphone Screen Styles */
@@ -59,9 +56,13 @@
         font-size: 1.5em;
       }
 
-      button {
-        padding: 15px; /* Increase padding for larger button */
-        font-size: 2.0em; /* Increase font size for larger button */
+      input {
+        width: 100%;
+      }
+
+      #submitButton {
+        padding: 15px;
+        font-size: 1.5em;
       }
     }
   </style>
@@ -71,9 +72,11 @@
     <h1 id="headerText">Enter Class Mode:</h1>
     <p>Last Updated Time: <%= lastUpdatedTime ? lastUpdatedTime.toLocaleString() : 'Not available' %></p>
     <div>
-      <button id="greenButton" onclick="changeColor('green')">Green</button>
-      <button id="redButton" onclick="changeColor('red')">Red</button>
+      
+      <input type="text" id="classModeInput" placeholder="Enter class mode">
+      <button id="submitButton" onclick="submitClassMode()">Submit</button>
     </div>
+    <br>
     <img src="https://i.ibb.co/JsyRzbW/Screenshot-2023-10-06-193044.png" style="width: 300px; height: 250px;" alt="">
   </div>
 
@@ -82,24 +85,30 @@
     const currentColor = '<%= currentColor %>';
     const lastUpdatedTime = '<%= lastUpdatedTime ? lastUpdatedTime.toLocaleString() : 'Not available' %>';
 
-    document.getElementById('headerText').innerText = 'Enter Class Mode - ' + currentColor;
+    document.getElementById('headerText').innerText = '  ' + currentColor;
 
-    function changeColor(color) {
-      document.getElementById('headerText').innerText = 'Enter Class Mode: - ' + color;
+    function submitClassMode() {
+      const classModeInput = document.getElementById('classModeInput').value;
+      document.getElementById('headerText').innerText = '  ' + classModeInput;
 
-      // Add code here to send the color information to the server and update MongoDB
+      // Add code here to send the class mode information to the server and update MongoDB
       // You can use fetch or another method to send a POST request to your server
-      fetch('/changeColor', {
+      fetch('/submitClassMode', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ color }),
+        body: JSON.stringify({ classMode: classModeInput }),
       })
       .then(response => response.text())
       .then(data => console.log(data))
       .catch(error => console.error(error));
     }
+
+    // Randomly change button color on page refresh
+    const colors = ['green', 'blue', 'red', 'yellow'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    document.getElementById('submitButton').style.backgroundColor = randomColor;
   </script>
 </body>
 </html>
