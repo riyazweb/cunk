@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      padding: 5%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -70,7 +71,7 @@
 <body>
   <div id="container">
     <h1 id="headerText">Enter Class Mode:</h1>
-    <p>Last Updated Time: <%= lastUpdatedTime ? lastUpdatedTime.toLocaleString() : 'Not available' %></p>
+    <p>Last Updated Time: 12/28/2023, 12:20:08 PM</p>
     <div>
       
       <input type="text" id="classModeInput" placeholder="Enter class mode">
@@ -82,8 +83,8 @@
 
   <script>
     // Load the initial color and last updated time from the server
-    const currentColor = '<%= currentColor %>';
-    const lastUpdatedTime = '<%= lastUpdatedTime ? lastUpdatedTime.toLocaleString() : 'Not available' %>';
+    const currentColor = 'Hello';
+    const lastUpdatedTime = '12/28/2023, 12:20:08 PM';
 
     document.getElementById('headerText').innerText = '  ' + currentColor;
 
