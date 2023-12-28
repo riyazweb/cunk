@@ -77,6 +77,9 @@ app.post('/changeColor', async (req, res) => {
     await Color.findOneAndUpdate({}, { lastClickedColor: color, lastUpdatedTime: Date.now() }, { upsert: true });
     res.send('Color updated successfully');
   } 
+  catch (err) {
+    console.error(err);
+  }
 });
 
 app.listen(port, () => {
