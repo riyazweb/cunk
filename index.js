@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -44,10 +42,13 @@ app.route('/')
       const currentColor = latestColor ? latestColor.lastClickedColor : 'green';
       const lastUpdatedTime = latestColor ? latestColor.lastUpdatedTime : null;
 
+      const colors = ['green', 'blue', 'red', 'yellow'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
       if (latestBioData) {
-        res.render('index.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime });
+        res.render('index.html', { latestBioData: latestBioData.name, currentColor, lastUpdatedTime, randomColor });
       } else {
-        res.render('index.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime });
+        res.render('index.html', { latestBioData: 'No data available', currentColor, lastUpdatedTime, randomColor });
       }
     } catch (err) {
       console.error(err);
@@ -75,11 +76,23 @@ app.post('/submitClassMode', async (req, res) => {
 
   try {
     // Update MongoDB with the submitted class mode and current time
-    await Color.findOneAndUpdate({}, { lastClickedColor: classMode, lastUpdatedTime: Date.now() }, { upsert: true });
-    res.send('Class mode submitted successfully');
-  } 
-  catch (err) {
+    const currentTime = new Date();
+    await Color.findOneAndUpdate({}, { lastClickedColor: classMode, lastUpdatedTime: currentTime }, { upsert: true });
+
+    // Retrieve the latest data from MongoDB
+    const latestColor = await Color.findOne().sort({ lastUpdatedTime: -1 });
+    const currentColor = latestColor ? latestColor.lastClickedColor : 'green';
+    const lastUpdatedTime = latestColor ? latestColor.lastUpdatedTime : null;
+
+    // Send the updated data back to the client
+    res.send({
+      message: 'Class mode submitted successfully',
+      currentColor,
+      lastUpdatedTime,
+    });
+  } catch (err) {
     console.error(err);
+    res.status(500).send('Internal Server Error');
   }
 });
 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cunk</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      margin: 10px;
+      padding: 15px;
+      font-size: 1.5em;
+      width: 70%;
+      box-sizing: border-box;
+    }
+
+    #submitButton {
+      background-color: blue;
+      color: white;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      padding: 15px;
+      font-size: 1.5em;
+    }
+
+    /* Smartphone Screen Styles */
+    @media screen and (max-width: 600px) {
+      #container {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      input {
+        width: 85%;
+      }
+
+      #submitButton {
+        padding: 15px;
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1 id="headerText"><%= latestBioData %>: <%= currentColor %></h1>
+    <p id="lastUpdatedTime">Last Updated Time: <%= lastUpdatedTime || 'N/A' %></p>
+    <div>
+      <input type="text" id="classModeInput" placeholder="Enter class mode">
+      <button id="submitButton" onclick="submitClassMode()">Submit</button>
+    </div>
+    <br>
+    <img src="https://i.ibb.co/JsyRzbW/Screenshot-2023-10-06-193044.png" style="width: 300px; height: 250px;" alt="">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      updatePageContent();
+    });
+
+    function updatePageContent() {
+      fetch('/')
+        .then(response => response.json())
+        .then(data => {
+          const latestBioData = data.latestBioData || 'No data available';
+          const currentColor = data.currentColor || 'No color available';
+          const lastUpdatedTime = data.lastUpdatedTime || 'N/A';
+
+          document.getElementById('headerText').innerText = `${latestBioData}: ${currentColor}`;
+          document.getElementById('lastUpdatedTime').innerText = `Last Updated Time: ${lastUpdatedTime}`;
+        })
+        .catch(error => console.error(error));
+    }
+
+    function submitClassMode() {
+      const classModeInput = document.getElementById('classModeInput').value;
+
+      fetch('/submitClassMode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bioData: classModeInput }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          updatePageContent();
+        })
+        .catch(error => console.error(error));
+    }
+
+    const colors = ['green', 'blue', 'red', 'yellow'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    document.getElementById('submitButton').style.backgroundColor = randomColor;
+  </script>
+</body>
+</html>
