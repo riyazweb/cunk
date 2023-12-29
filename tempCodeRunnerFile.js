@@ -7,9 +7,8 @@ const atlasConnectionString = `mongodb+srv://theriyazsonu:mdriyazsonu39709@proje
 
 mongoose.connect(atlasConnectionString, {
   useNewUrlParser: true,
-  useUnifiedTopology: true, // Optional: Set a timeout for server selection
+  useUnifiedTopology: true
 });
-
 
 // BioData model
 const bioDataSchema = new mongoose.Schema({

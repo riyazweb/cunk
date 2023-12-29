@@ -14,6 +14,23 @@
       background-color: #f4f4f4;
     }
 
+    
+.redirect-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.redirect-button:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
     #container {
       background-color: white;
       border-radius: 10px;
@@ -72,12 +89,18 @@
     <h1 id="headerText"></h1>
     <p id="lastUpdatedText"></p>
     <div>
+
+
+    
       <input type="text" id="classModeInput" placeholder="Enter class mode">
       <br>
       <button id="submitButton" onclick="submitClassMode()">Submit</button>
     </div>
     <br>
     <img src="https://i.ibb.co/JsyRzbW/Screenshot-2023-10-06-193044.png" style="width: 600px; height: 500px;" alt="">
+    <br>
+    <button class="redirect-button" onclick="redirectToURL('https://butterx.onrender.com/')">PDF</button>
+    <br>
   </div>
 
   <script>
@@ -105,6 +128,10 @@
       })
       .catch(error => console.error(error));
     }
+
+    function redirectToURL(url) {
+    window.location.href = url;
+}
 
     const randomColor = '<%= randomColor %>';
     document.getElementById('submitButton').style.backgroundColor = randomColor;
